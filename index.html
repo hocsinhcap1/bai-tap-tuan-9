@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phiếu bài tập cuối tuần</title>
+<style>
+:root{--bg:#fffaf0;--card:#fff;--tx:#1f2a44;--mut:#667;--ln:#e3d9c4;--pri:#e8590c;--ok:#2b8a3e;--bad:#c92a2a;--in:#fff8e6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171a22;--card:#222735;--tx:#f1efe9;--mut:#aab;--ln:#3a4156;--pri:#ff9248;--ok:#69db7c;--bad:#ff8787;--in:#2d3346;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171a22;--card:#222735;--tx:#f1efe9;--mut:#aab;--ln:#3a4156;--pri:#ff9248;--ok:#69db7c;--bad:#ff8787;--in:#2d3346;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.5 "Segoe UI",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:14px}
+h1{text-align:center;margin:8px 0 2px;font-size:1.6rem;color:var(--pri)}
+.sub{text-align:center;color:var(--mut);margin:0 0 12px}
+.card{background:var(--card);border:2px dashed var(--ln);border-radius:16px;padding:12px 14px;margin:12px 0}
+.card h2{margin:0 0 8px;font-size:1.1rem}
+.n{display:inline-block;background:var(--pri);color:#fff;border-radius:50%;width:1.6em;height:1.6em;text-align:center;line-height:1.6em;margin-right:6px}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--in);border:2px solid var(--ln);border-radius:10px;padding:5px 8px}
+input[type=number]{width:4.2em;text-align:center}
+input.w{width:100%;box-sizing:border-box}
+textarea{width:100%;box-sizing:border-box;min-height:70px}
+select{padding:4px}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px 14px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0}
+.box{display:inline-block;border:2px solid var(--pri);border-radius:8px;padding:2px 10px;font-weight:700}
+.arrow{color:var(--mut)}
+.lbl{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:10px 18px;background:var(--pri);color:#fff;cursor:pointer}
+button.s{background:var(--mut);padding:6px 12px;font-size:.9rem}
+.who{display:flex;flex-wrap:wrap;gap:10px}.who label{flex:1 1 200px}
+.msg{padding:10px 12px;border-radius:10px;margin:10px 0}
+.ok{background:rgba(43,138,62,.15);color:var(--ok)}.er{background:rgba(201,42,42,.12);color:var(--bad)}
+.hint{font-size:.9rem;color:var(--mut)}
+details{border-top:1px solid var(--ln);padding:6px 0}
+summary{cursor:pointer}
+.c{color:var(--ok)}.x{color:var(--bad)}
+</style></head><body><main>
+<h1>📘 Phiếu bài tập cuối tuần</h1>
+<p class="sub">Toán tuần 7 · Tiếng Việt</p>
+
+<div class="card"><div class="who">
+<label>Họ và tên<br><input id="name" class="w" autocomplete="off" placeholder="Nguyễn Văn A"></label>
+<label>Lớp<br><input id="cls" class="w" autocomplete="off" placeholder="2A"></label></div></div>
+
+<div id="form"></div>
+
+<div id="msg"></div>
+<div style="text-align:center;margin:16px 0"><button id="send">Nộp bài cho cô/thầy ✉️</button></div>
+<div id="fallback"></div>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const KEY={},LABEL={};   // đáp án đúng, nhãn câu hỏi
+let html="";
+const num=(id,key,label)=>{KEY[id]=String(key);LABEL[id]=label;return `<input type="number" inputmode="numeric" data-k="${id}">`};
+const sel=(id,key,label,opts)=>{if(key!=null)KEY[id]=String(key);LABEL[id]=label;return `<select data-k="${id}"><option value="">?</option>${opts.map(o=>`<option>${o}</option>`).join("")}</select>`};
+
+// ----- TOÁN -----
+html+=`<div class="card"><h2><span class="n">1</span>Tính nhẩm</h2><div class="g">`;
+[["8 + 6",14],["9 + 4",13],["7 + 8",15],["11 − 8",3],["13 − 7",6],["17 − 9",8]].forEach(([e,r],i)=>
+ html+=`<div>${e} = ${num("t1_"+i,r,"1) "+e)}</div>`);
+html+=`</div></div>`;
+
+html+=`<div class="card"><h2><span class="n">2</span>Tính</h2>`;
+[["a)","9 + 7 − 8",8],["b)","6 + 5 + 4",15],["c)","15 − 7 + 6",14]].forEach(([a,e,r],i)=>
+ html+=`<div class="row">${a} ${e} = ${num("t2_"+i,r,"2"+a+" "+e)}</div>`);
+html+=`</div>`;
+
+html+=`<div class="card"><h2><span class="n">3</span>Điền số thích hợp vào ô trống</h2>`;
+[[7,"+ 9","− 8",16,8],[8,"+ 5","− 6",13,7]].forEach(([s,o1,o2,r1,r2],i)=>
+ html+=`<div class="row"><span class="box">${s}</span><span class="arrow">${o1} →</span>${num("t3_"+i+"a",r1,"3) "+s+" "+o1)}<span class="arrow">${o2} →</span>${num("t3_"+i+"b",r2,"3) "+s+" "+o1+" "+o2)}</div>`);
+html+=`</div>`;
+
+html+=`<div class="card"><h2><span class="n">4</span>Giải bài toán</h2>
+<p>Trên giá có 9 quyển sách và 8 quyển vở. Hỏi trên giá có tất cả bao nhiêu quyển sách và vở?</p>
+<b>Bài giải</b><div class="row">Phép tính: <input class="w" style="flex:1" data-k="t4_pt" placeholder="9 + 8 = ..."></div>
+<div class="row">Đáp số: ${num("t4_ds",17,"4) Đáp số")} quyển</div></div>`;
+LABEL.t4_pt="4) Phép tính";
+
+html+=`<div class="card"><h2><span class="n">5</span>Giải bài toán</h2>
+<p>Nam vẽ được 11 bức tranh. Mai vẽ được ít hơn Nam 3 bức tranh. Hỏi Mai vẽ được bao nhiêu bức tranh?</p>
+<b>Bài giải</b><div class="row">Phép tính: <input class="w" style="flex:1" data-k="t5_pt" placeholder="11 − 3 = ..."></div>
+<div class="row">Đáp số: ${num("t5_ds",8,"5) Đáp số")} bức tranh</div></div>`;
+LABEL.t5_pt="5) Phép tính";
+
+html+=`<div class="card"><h2><span class="n">6</span>Nối phép tính với kết quả đúng</h2><div class="g">`;
+[["8 + 5",13],["14 − 6",8],["9 + 7",16],["12 − 5",7]].forEach(([e,r],i)=>
+ html+=`<div>${e} = ${sel("t6_"+i,r,"6) "+e,[7,8,13,16])}</div>`);
+html+=`</div></div>`;
+
+// ----- TIẾNG VIỆT -----
+const SX=[["","ách vở","s"],["","inh đẹp","x"],["","e đạp","x"],["","uất sắc","x"],["","ân trường","s"],["","ạch sẽ","s"],["","em phim","x"],["","âu kim","x"],["","ông nhà",null],["thợ ","ăn","s"],["","inh xắn","x"],["","e hoa","x"]];
+const CT=[["","ẻ em","tr"],["","ái cây","tr"],["","ường học","tr"],["","ơi đùa","ch"],["","ăm chỉ","ch"],["màu ","ắng","tr"],["","ân thật","ch"],["","uyện kể","tr"],["","ống cơm","tr"],["","èo cao","tr"],["","ăng tròn","tr"],["","ải bàn","tr"]];
+const vi=(id,title,list,opts,pre)=>{
+ html+=`<div class="card"><h2><span class="n">${id}</span>${title}</h2><div class="g">`;
+ list.forEach(([a,b,k],i)=>html+=`<div>${a}${sel(pre+i,k,id+") "+a+"…"+b,opts)}${b}</div>`);
+ html+=`</div></div>`};
+vi(1,"Điền âm đầu s / x",SX,["s","x"],"v1_");
+vi(2,"Điền âm đầu ch / tr",CT,["ch","tr"],"v2_");
+
+html+=`<div class="card"><h2><span class="n">3</span>Viết một câu nêu công dụng của một đồ dùng học tập</h2><textarea data-k="v3"></textarea></div>`;
+LABEL.v3="3) Câu nêu công dụng";
+
+html+=`<div class="card"><h2><span class="n">4</span>Điền dấu chấm hoặc dấu chấm hỏi vào ô trống</h2>`;
+[["a)","Bạn dùng bút màu để làm gì","?"],["b)","Em dùng thước để kẻ đường thẳng","."],["c)","Chiếc tẩy của bạn đâu rồi","?"]].forEach(([a,t,k],i)=>
+ html+=`<div class="row">${a} ${t} ${sel("v4_"+i,k,"4"+a+" "+t,[".","?"])}</div>`);
+html+=`</div>`;
+
+html+=`<div class="card"><h2><span class="n">5</span>Viết 3 – 4 câu giới thiệu một đồ vật dùng để vẽ</h2>
+<p class="hint">Gợi ý: Đó là đồ vật gì? Đồ vật có đặc điểm gì? Em sử dụng như thế nào? Đồ vật giúp ích gì cho em?</p><textarea data-k="v5" style="min-height:130px"></textarea></div>`;
+LABEL.v5="5) Đoạn giới thiệu đồ vật";
+
+html+=`<div class="card"><h2><span class="n">6</span>Đặt một câu có từ “bút chì”</h2><textarea data-k="v6"></textarea></div>`;
+LABEL.v6="6) Câu có từ “bút chì”";
+$("#form").innerHTML=html;
+
+// ----- Thu thập & chấm -----
+const ORDER=[...document.querySelectorAll("[data-k]")].map(e=>e.dataset.k);
+const collect=()=>{const a={};document.querySelectorAll("[data-k]").forEach(e=>a[e.dataset.k]=e.value.trim());return a};
+const grade=a=>{let got=0,total=0;for(const k in KEY){total++;if(a[k]===KEY[k])got++}return{got,total}};
+const summary=(name,cls,a)=>{const g=grade(a);
+ return `BÀI LÀM — ${name} — Lớp ${cls}\nĐiểm tự chấm: ${g.got}/${g.total}\n\n`+ORDER.map(k=>`${LABEL[k]||k}: ${a[k]||"(bỏ trống)"}`).join("\n")};
+
+// ===== CẤU HÌNH: dán URL Web App của Google Apps Script vào đây =====
+const ENDPOINT="DÁN_URL_APPS_SCRIPT_VÀO_ĐÂY";
+// =====================================================================
+let sent=false;
+const show=(t,c)=>$("#msg").innerHTML=`<div class="msg ${c}">${t}</div>`;
+$("#send").onclick=async()=>{
+ const name=$("#name").value.trim(),cls=$("#cls").value.trim();
+ if(!name||!cls){show("Em nhớ điền Họ và tên và Lớp trước khi nộp nhé!","er");$("#name").focus();return}
+ if(sent&&!confirm("Em đã nộp rồi. Nộp lại lần nữa nhé?"))return;
+ const a=collect(),g=grade(a),blank=ORDER.filter(k=>!a[k]).length;
+ if(blank&&!confirm(`Em còn ${blank} ô chưa làm. Vẫn nộp bài chứ?`))return;
+ const btn=$("#send");btn.disabled=true;btn.textContent="Đang nộp…";
+ const payload={name,cls,got:g.got,total:g.total,labels:ORDER.map(k=>LABEL[k]||k),answers:ORDER.map(k=>a[k])};
+ try{
+  if(!ENDPOINT.startsWith("https://"))throw 0;
+  const r=await fetch(ENDPOINT,{method:"POST",body:JSON.stringify(payload)});
+  const j=await r.json();if(!j.ok)throw 0;
+  sent=true;show(`✅ Đã nộp bài thành công! Cảm ơn ${esc(name)}.`,"ok");$("#fallback").innerHTML="";
+ }catch(e){
+  show("Chưa gửi được. Em bấm “Sao chép bài làm” rồi gửi cho cô/thầy nhé.","er");
+  const t=summary(name,cls,a);
+  $("#fallback").innerHTML=`<div class="card"><textarea readonly id="out" style="min-height:160px">${esc(t)}</textarea><div class="row"><button class="s" id="cp">Sao chép bài làm</button></div></div>`;
+  $("#cp").onclick=async()=>{try{await navigator.clipboard.writeText(t)}catch(_){$("#out").select();document.execCommand("copy")}$("#cp").textContent="Đã sao chép ✓"};
+ }
+ btn.disabled=false;btn.textContent="Nộp bài cho cô/thầy ✉️";
+};
+</script></body></html>
