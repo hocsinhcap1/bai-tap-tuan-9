@@ -47,7 +47,18 @@ function notifyOne(d) {
       "[Bài nộp] " + String(d.name).slice(0, 60) + " - lớp " + String(d.cls).slice(0, 20),
       "Họ và tên: " + d.name + "\nLớp: " + d.cls + "\nĐã làm: " + done + "/" + count + " câu\nGiờ nộp: " +
       Utilities.formatDate(new Date(), TZ, "dd/MM/yyyy HH:mm"));
-  } catch (err) { /* lỗi gửi mail không làm hỏng việc lưu bài */ }
+  } catch (err) {
+    // Lỗi gửi mail không làm hỏng việc lưu bài, nhưng được ghi lại để bạn xem
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const lg = ss.getSheetByName("Lỗi email") || ss.insertSheet("Lỗi email");
+    lg.appendRow([new Date(), String(err)]);
+  }
+}
+
+// Chạy hàm này trong Apps Script để cấp quyền gửi email và gửi thử 1 email
+function testEmail() {
+  MailApp.sendEmail(TEACHER_EMAIL, "[Thử] Email từ phiếu bài tập", "Nếu bạn đọc được email này thì việc gửi thông báo đã hoạt động.");
+  Logger.log("Đã gửi email thử tới " + TEACHER_EMAIL);
 }
 
 // Email tổng hợp trong ngày (chỉ chạy khi NOTIFY = "daily", sau khi chạy installDailyTrigger một lần)
