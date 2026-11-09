@@ -42,6 +42,9 @@ summary{cursor:pointer}
 .br input{width:100%;box-sizing:border-box}
 .mk{margin-left:4px;font-weight:700}
 @media(max-width:600px){.mm{grid-template-columns:1fr}.ctr{order:-1;border-radius:16px;aspect-ratio:auto}}
+.note{color:var(--pri);font-weight:700}
+.sg{background:var(--in);border:2px solid var(--b);border-radius:14px;padding:8px;font-size:.95rem}
+.sg b{display:block;color:var(--b);font-size:.9rem;margin-bottom:2px}
 </style></head><body><main>
 <h1>📘 Phiếu bài tập cuối tuần</h1>
 <p class="sub">Toán tuần 7 · Tiếng Việt</p>
@@ -110,24 +113,22 @@ const vi=(id,title,list,opts,pre)=>{
 vi(1,"Điền âm đầu s / x",SX,["s","x"],"v1_");
 vi(2,"Điền âm đầu ch / tr",CT,["ch","tr"],"v2_");
 
-html+=`<div class="card"><h2><span class="n">3</span>Viết một câu nêu công dụng của một đồ dùng học tập</h2><textarea data-k="v3"></textarea></div>`;
-LABEL.v3="3) Câu nêu công dụng";
+html+=`<div class="card"><h2><span class="n">3</span>Viết một câu nêu công dụng của một đồ dùng học tập</h2><p class="note">(Em làm vào vở Luyện viết đoạn)</p></div>`;
 
 html+=`<div class="card"><h2><span class="n">4</span>Điền dấu chấm hoặc dấu chấm hỏi vào ô trống</h2>`;
 [["a)","Bạn dùng bút màu để làm gì","?"],["b)","Em dùng thước để kẻ đường thẳng","."],["c)","Chiếc tẩy của bạn đâu rồi","?"]].forEach(([a,t,k],i)=>
  html+=`<div class="row">${a} ${t} ${sel("v4_"+i,k,"4"+a+" "+t,[".","?"])}</div>`);
 html+=`</div>`;
 
-const br=(id,c,t,ph,label)=>{LABEL[id]=label;return `<div class="br" style="--b:${c}"><b>${t}</b><input data-k="${id}" placeholder="${ph}" autocomplete="off"></div>`};
-html+=`<div class="card"><h2><span class="n">5</span>Hoàn thành sơ đồ tư duy về một đồ vật dùng để vẽ, rồi viết 3 – 4 câu giới thiệu</h2>
-<div class="mm"><div class="col">${br("v5a","#e8590c","① Đó là đồ vật gì?","Tên đồ vật","5) Đồ vật gì")}${br("v5b","#2b8a3e","② Đồ vật có đặc điểm gì?","Hình dạng, màu sắc…","5) Đặc điểm")}</div>
+const sg=(c,t,x)=>`<div class="sg" style="--b:${c}"><b>${t}</b>${x}</div>`;
+html+=`<div class="card"><h2><span class="n">5</span>Viết 3 – 4 câu giới thiệu một đồ vật dùng để vẽ</h2>
+<p class="note">(Em làm vào vở Luyện viết đoạn)</p>
+<p class="hint">Em dựa vào sơ đồ tư duy gợi ý dưới đây để viết:</p>
+<div class="mm"><div class="col">${sg("#e8590c","① Đó là đồ vật gì?","Hộp bút chì màu của em")}${sg("#2b8a3e","② Đồ vật có đặc điểm gì?","Có nhiều màu sắc, thân gỗ nhỏ, ruột mềm")}</div>
 <div class="ctr">ĐỒ VẬT DÙNG ĐỂ VẼ</div>
-<div class="col">${br("v5c","#1c7ed6","③ Em sử dụng thế nào?","Em dùng như thế nào?","5) Cách sử dụng")}${br("v5d","#ae3ec9","④ Giúp ích gì cho em?","Giúp em làm gì?","5) Ích lợi")}</div></div>
-<p class="hint">Dựa vào sơ đồ trên, em viết 3 – 4 câu giới thiệu:</p><textarea data-k="v5" style="min-height:120px"></textarea></div>`;
-LABEL.v5="5) Đoạn giới thiệu đồ vật (3–4 câu)";
+<div class="col">${sg("#1c7ed6","③ Em sử dụng thế nào?","Cầm nhẹ tay, tô từng nét, dùng xong cất vào hộp")}${sg("#ae3ec9","④ Giúp ích gì cho em?","Giúp em vẽ và tô màu những bức tranh đẹp")}</div></div></div>`;
 
-html+=`<div class="card"><h2><span class="n">6</span>Đặt một câu có từ “bút chì”</h2><textarea data-k="v6"></textarea></div>`;
-LABEL.v6="6) Câu có từ “bút chì”";
+html+=`<div class="card"><h2><span class="n">6</span>Đặt một câu có từ “bút chì”</h2><p class="note">(Em làm vào vở Luyện viết đoạn)</p></div>`;
 $("#form").innerHTML=html;
 
 // ----- Thu thập & chấm tự động -----
@@ -136,14 +137,12 @@ const wc=t=>t.trim().split(/\s+/).filter(Boolean).length;
 const END=/[.!?]\s*$/;
 const nrm=t=>t.replace(/\s/g,"").replace(/[−–]/g,"-");
 const CHK={
- v1_8:t=>t==="s"||t==="x",                     // "…ông nhà": chấp nhận cả s và x
+ v1_8:t=>t==="s"||t==="x",   // "…ông nhà": chấp nhận cả s và x
  t4_pt:t=>/9\+8|8\+9/.test(nrm(t)),
- t5_pt:t=>/11-3/.test(nrm(t)),
- v3:t=>wc(t)>=4&&END.test(t),
- v5a:t=>wc(t)>=1, v5b:t=>wc(t)>=2, v5c:t=>wc(t)>=2, v5d:t=>wc(t)>=2,
- v5:t=>wc(t)>=12&&(t.match(/[.!?]/g)||[]).length>=3,
- v6:t=>/bút chì/i.test(t)&&wc(t)>=4&&END.test(t)
+ t5_pt:t=>/11-3/.test(nrm(t))
 };
+const HINT={v1_8:"x hoặc s",t4_pt:"9 + 8 = 17",t5_pt:"11 − 3 = 8"};
+const expected=k=>KEY[k]!=null?KEY[k]:HINT[k];
 const gradable=k=>!!CHK[k]||KEY[k]!=null;
 const isOk=(k,v)=>CHK[k]?CHK[k](v||""):v===KEY[k];
 const collect=()=>{const a={};document.querySelectorAll("[data-k]").forEach(e=>a[e.dataset.k]=e.value.trim());return a};
@@ -155,7 +154,7 @@ function mark(a){
  document.querySelectorAll(".mk").forEach(e=>e.remove());
  ORDER.forEach(k=>{if(!gradable(k))return;const el=document.querySelector(`[data-k="${k}"]`),ok=isOk(k,a[k]);
   el.style.borderColor=ok?"var(--ok)":"var(--bad)";
-  const m=document.createElement("span");m.className="mk "+(ok?"c":"x");m.textContent=ok?"✓":"✗";el.after(m)})}
+  const m=document.createElement("span");m.className="mk "+(ok?"c":"x");m.textContent=ok?"✓":"✗ (đáp án: "+expected(k)+")";el.after(m)})}
 
 // ===== CẤU HÌNH: dán URL Web App của Google Apps Script vào đây =====
 const ENDPOINT="DÁN_URL_APPS_SCRIPT_VÀO_ĐÂY";
@@ -172,9 +171,9 @@ $("#send").onclick=async()=>{
  const a=collect(),g=grade(a),blank=ORDER.filter(k=>!a[k]).length;
  if(blank&&!confirm(`Em còn ${blank} ô chưa làm. Vẫn nộp bài chứ?`))return;
  mark(a);
- const res=`🎯 Điểm của em: <b>${g.s10}/10</b> (${g.got}/${g.total} ý đúng). Ô ✗ là chỗ em cần xem lại.`;
+ const res=`🎯 Điểm của em: <b>${g.s10}/10</b> (${g.got}/${g.total} ý đúng). Chỗ nào ✗ có ghi đáp án đúng để em xem lại.`;
  const btn=$("#send");btn.disabled=true;btn.textContent="Đang nộp…";
- const payload={name,cls,got:g.got,total:g.total,score10:g.s10,labels:ORDER.map(k=>LABEL[k]||k),answers:ORDER.map(k=>a[k])};
+ const payload={name,cls,got:g.got,total:g.total,score10:g.s10,done:ORDER.length-blank,count:ORDER.length,labels:ORDER.map(k=>LABEL[k]||k),answers:ORDER.map(k=>a[k])};
  try{
   const j=await post(payload);if(!j.ok)throw 0;
   sent=true;show(`✅ Đã nộp bài, cảm ơn ${esc(name)}!<br>${res}`,"ok");$("#fallback").innerHTML="";

@@ -22,6 +22,13 @@ Mở `index.html`, tìm dòng `const ENDPOINT=` và thay `DÁN_URL_APPS_SCRIPT_V
 2. **Settings → Pages → Source: Deploy from a branch → main / (root)**.
 3. Sau ít phút, link trang có dạng `https://<tên-github>.github.io/<tên-repo>/`. Gửi link này cho học sinh.
 
+## Nhận email thống kê
+Trong `Code.gs`, sửa 2 dòng đầu:
+- `TEACHER_EMAIL`: email của bạn.
+- `NOTIFY`: `"each"` = mỗi bài nộp một email (tên, lớp, số câu đã làm); `"daily"` = một email tổng hợp mỗi ngày lúc 18h (chọn cách này thì chạy hàm `installDailyTrigger` một lần trong Apps Script); `"off"` = không gửi.
+- Lần đầu triển khai, Google sẽ hỏi quyền gửi email, hãy cho phép. Sau khi sửa `Code.gs` nhớ triển khai phiên bản mới.
+- Gmail cá nhân gửi được khoảng 100 email/ngày, lớp đông nên dùng `"daily"`.
+
 ## Xem bài đã nộp
 - Cách 1: mở Google Sheet, có đủ đáp án từng câu.
 - Cách 2: cuối trang web có khung **Khu vực giáo viên**, nhập mật khẩu (đặt ở dòng `TEACHER_PASSWORD` trong `Code.gs`) để xem danh sách bài, điểm và câu sai. Mật khẩu được kiểm tra ở Apps Script, không nằm trong trang web.
